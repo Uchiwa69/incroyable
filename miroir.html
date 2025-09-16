@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quelqu’un d’extraordinaire</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    #message {
+      font-size: 1.8em;
+      text-align: center;
+      padding: 20px;
+    }
+    video {
+      display: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* effet miroir */
+    }
+  </style>
+</head>
+<body>
+  <div id="message">✨ Prépare-toi... je vais te présenter quelqu’un d’extraordinaire ✨</div>
+  <video id="video" autoplay playsinline></video>
+
+  <script>
+    const message = document.getElementById("message");
+    const video = document.getElementById("video");
+
+    // Après quelques secondes, on active la caméra
+    setTimeout(() => {
+      message.style.display = "none";
+      video.style.display = "block";
+
+      navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" }, // caméra frontale
+        audio: false
+      })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        message.innerText = "Impossible d’accéder à la caméra 😅";
+        message.style.display = "block";
+      });
+
+    }, 4000); // délai de 4 secondes avant révélation
+  </script>
+</body>
+</html>
